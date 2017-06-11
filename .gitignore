@@ -1,0 +1,15 @@
+#Visual Code
+desktop.ini
+.vs
+
+#Eclipse Files
+VirtualStore_Damocles/.project
+VirtualStore_Damocles/.classpath
+VirtualStore_Damocles/.metadata
+VirtualStore_Damocles/.settings/
+<<<<<<< HEAD
+
+=======
+VirtualStore_Damocles/.metadata/
+/target/
+>>>>>>> a2cd299053119631c2d28e5704b4e89b4dc89f66

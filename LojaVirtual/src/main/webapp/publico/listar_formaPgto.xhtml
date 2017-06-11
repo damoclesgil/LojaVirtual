@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Lista de Formas de Pagamento</title>
+</h:head>
+<h:body>
+	<h:form id="form">
+		 <p:growl id="msgs" showDetail="true"/>
+			
+			<p:dataTable id="tbl" var="f" value="#{formaPagtoCtrl.listagem}"
+						 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+						 {PageLinks} {NextPageLink} {LastPageLink}"
+						 paginator="true" rows="10" style="margin-bottom: 20px">
+						 
+				<f:facet name="header">
+					<h:outputLabel value="Lista de Formas de Pagamento"/>
+					<br/>
+					<p:commandButton value="Inserir" icon="ui-icon-novo"
+						actionListener="#{formaPagtoCtrl.actionInserir}"
+						oncomplete="PF('cadDialog').show()"
+						update=":form:cadDetail">
+					</p:commandButton>
+				</f:facet>
+				
+				<p:column headerText="Código" sortBy="f.id">
+					<h:outputText value="#{f.id}"/>
+				</p:column>
+				
+				<p:column headerText="Descrição" sortBy="f.descricao">
+					<h:outputText value="#{f.descricao}"/>
+				</p:column>
+				
+				<p:column headerText="Nº Máx. Parc" sortBy="f.numMaxParc">
+					<h:outputText value="#{f.numMaxParc}"/>
+				</p:column>
+				
+				<p:column style="width:32px; text-align: center">
+					<p:commandButton update=":form:cadDetail" oncomplete="PF('cadDialog').show()"
+						icon="ui-icon-search" title="View">
+						<f:setPropertyActionListener value="#{f}" target="#{formaPagtoCtrl.formPagto}"/>
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			
+			<p:dialog header="Cadastro de Forma de Pagamento" widgetVar="cadDialog" modal="true"
+						showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="cadDetail" style="text-align: center;">
+				<h:panelGrid columns="2" style="text-align: left">
+					<h:outputLabel value="Código"/>
+					<p:inputText value="#{formaPagtoCtrl.formPagto.id}" size="6" maxlength="10" readonly="true"/>
+					
+					<h:outputLabel value="Nome"/>
+					<p:inputText value="#{formaPagtoCtrl.formPagto.descricao}" size="30" maxlength="20"/>
+					
+					<h:outputLabel value="Nº Max. Parcelas"/>
+					<p:inputText value="#{formaPagtoCtrl.formPagto.numMaxParc}" size="6" maxlength="3"/>
+					
+					<h:outputLabel value="Nº Padrão de Parcelas"/>
+					<p:inputText value="#{formaPagtoCtrl.formPagto.numPadraoParc}" size="6" maxlength="3"/>
+					
+					
+				</h:panelGrid>
+				
+				<p:commandButton value="Excluir" action="#{formaPagtoCtrl.actionExcluir}" update="form" />
+				<p:commandButton value="Gravar" action="#{formaPagtoCtrl.actionGravar}" update="form" />
+				<p:commandButton value="Cancelar" oncomplete="PF('cadDialog').hide()"/>
+				
+				</p:outputPanel>
+			</p:dialog>
+	</h:form>
+</h:body>
+</html>

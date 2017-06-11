@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Forma de Pagamento</title>
+</h:head>
+<h:body>
+	<h:form id="frm-pagamento">
+
+
+		<p:outputLabel value="Formas de Pagamento" />
+		<p:selectOneRadio layout="responsive" columns="1" value="#{bPedido.forma.id}">
+			<f:selectItems value="#{bFormaDePagamento.listagem}" var="objPagamento" itemLabel="#{objPagamento.descricao}" itemValue="#{objPagamento.id}" />
+			<p:ajax event="change" listener="#{bPedido.controleParcelas}" update=":frm-pagamento:parcelas :frm-pagamento-subtotal" />
+		</p:selectOneRadio>
+
+		<p:outputLabel value="Parcelas" />
+		<p:selectOneMenu disabled="#{bPedido.desabilitarParcelas}" id="parcelas" value="#{bPedido.forma.numPadraoParc}">
+			<p:ajax event="change" listener="#{bPedido.jurosSobreParcela}" update=":frm-pagamento-subtotal:valorTotal" />
+			<f:selectItem itemValue="1" itemLabel="1x (sem juros)" />
+			<f:selectItem itemValue="2" itemLabel="2x (sem juros)" />
+			<f:selectItem itemValue="3" itemLabel="3x (sem juros)" />
+			<f:selectItem itemValue="4" itemLabel="4x (sem juros)" />
+			<f:selectItem itemValue="5" itemLabel="5x (sem juros)" />
+			<f:selectItem itemValue="6" itemLabel="6x (juros 1,5%)" />
+			<f:selectItem itemValue="7" itemLabel="7x (juros 1,6%)" />
+			<f:selectItem itemValue="8" itemLabel="8x (juros 1,7%)" />
+			<f:selectItem itemValue="9" itemLabel="9x (juros 1,8%)" />
+			<f:selectItem itemValue="10" itemLabel="10x (juros 1,9%)" />
+			<f:selectItem itemValue="11" itemLabel="11x (juros 2,0%)" />
+			<f:selectItem itemValue="12" itemLabel="12x (juros 2,1%)" />
+		</p:selectOneMenu>
+
+		<p:dataTable value="#{bPedido.pedido.produtos}" var="objProdutos">
+			<f:facet name="header">
+				<h:outputLabel value="Produtos Escolhidos" />
+			</f:facet>
+
+
+			<p:column>
+				<f:facet name="header">
+					<h:outputLabel value="Imagem" />
+				</f:facet>
+				<p:graphicImage value="./image/#{objProdutos.foto}" />
+			</p:column>
+
+			<p:column>
+				<f:facet name="header">
+					<h:outputLabel value="Nome" />
+				</f:facet>
+				<h:outputLabel value="#{objProdutos.nome}" />
+			</p:column>
+
+			<p:column>
+				<f:facet name="header">
+					<h:outputLabel value="Preço" />
+				</f:facet>
+				<h:outputLabel id="preçoProduto" value="#{objProdutos.preco}" />
+			</p:column>
+
+		</p:dataTable>
+
+	</h:form>
+
+	<h:form id="frm-pagamento-subtotal">
+		<p:panelGrid columns="2" id="subTotal">
+			<h:outputLabel value="SubTotal" />
+			<h:outputLabel value="#{bPedido.itens.subTotal}" />
+
+			<h:outputLabel value="Desconto" />
+			<h:outputLabel id="valorDesconto" value="#{bPedido.pedido.desconto}" />
+
+			<h:outputLabel value="Total" />
+			<h:outputLabel id="valorTotal" value="#{bPedido.pedido.total}" />
+
+			<p:commandButton value="Finalizar Pedido" action="#{bPedido.actionGravar}" />
+		</p:panelGrid>
+	</h:form>
+</h:body>
+</html>

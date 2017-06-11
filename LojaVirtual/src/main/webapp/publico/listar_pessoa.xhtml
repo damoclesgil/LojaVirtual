@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Listar Pessoase</title>
+</h:head>
+<h:body>
+	<h:form id="formListarPessoas">
+		<div align="center">
+			<h:outputLabel value="Pesquisar Pessoa" />
+			<p:inputText value="#{bPessoa.filtro}" />
+			<br /> <br />
+
+			<h:commandLink value="Nova Pessoa"
+				action="#{bPessoa.actionNovaPessoa}" />
+
+
+			<p:dataTable value="#{bPessoa.listagem}" var="objPessoa" border="1">
+				<f:facet name="header">
+					<h:outputLabel value="Listagem de Pessoas" />
+				</f:facet>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputLabel value="ID" />
+					</f:facet>
+					<h:outputLabel value="#{objPessoa.id}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputLabel value="Nome" />
+					</f:facet>
+					<h:outputLabel value="#{objPessoa.nome}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputLabel value="CPF" />
+					</f:facet>
+					<h:outputLabel value="#{objPessoa.cpf}" />
+				</p:column>
+
+<!-- 
+				<p:column>
+					<f:facet name="header">
+						<h:outputLabel value="RG" />
+					</f:facet>
+					<h:outputLabel value="#{objPessoa.rg}" />
+				</p:column>
+				
+ -->
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputLabel value="UF" />
+					</f:facet>
+					<h:outputLabel value="#{objPessoa.uf}" />
+				</p:column>
+				
+				<p:column>
+					<f:facet name="header">
+						<h:outputLabel value="Data Nasc" />
+					</f:facet>
+					<h:outputLabel value="#{objPessoa.data_nasc}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputLabel value="E-mail" />
+					</f:facet>
+					<h:outputLabel value="#{objPessoa.email}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputLabel value="Cidade" />
+					</f:facet>
+					<h:outputLabel value="#{objPessoa.cidade}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputLabel value="Telefones" />
+					</f:facet>
+					<p:commandButton icon="ui-icon-zoomin"
+						oncomplete="PF('telDialog').show()" update="formListarPessoas">
+						<f:setPropertyActionListener value="#{objPessoa}"
+							target="#{bPessoa.p}" />
+					</p:commandButton>
+				</p:column>
+
+				<p:column>
+					<h:commandLink value="Excluir" action="#{bPessoa.actionExcluir}">
+						<f:setPropertyActionListener value="#{objPessoa}"
+							target="#{bPessoa.p}" />
+					</h:commandLink>
+				</p:column>
+
+				<p:column>
+					<h:commandLink value="Editar" action="#{bPessoa.actionGravar}">
+						<f:setPropertyActionListener value="#{objPessoa}"
+							target="#{bPessoa.p}" />
+					</h:commandLink>
+				</p:column>
+			</p:dataTable>
+
+			<p:dialog header="Telefone(s)" widgetVar="telDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false" >
+				
+						<ui:repeat value="#{bPessoa.p.fones}" var="objFoneLista">
+							<li>#{objFoneLista.numero}</li>
+						</ui:repeat>
+			</p:dialog>
+		</div>
+	</h:form>
+</h:body>
+</html>
